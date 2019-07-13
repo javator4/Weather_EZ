@@ -1,16 +1,14 @@
 package pl.sda;
 
-
-import lombok.Data;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 import pl.sda.model.Current;
-
 import java.io.IOException;
 import java.lang.String;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-@Data
+
 public class WeatherService {
     private String url;
     private String apiKey;
@@ -21,20 +19,47 @@ public class WeatherService {
         this.url = url;
         this.apiKey = apiKey;
         this.finalURL = this.url + "?key=" + apiKey + "&q=";
-
     }
 
-    public void getCityWeather(String city) {
+    public Current getCityWeather(String city) {
+
         this.finalURL = this.finalURL + city;
         System.out.println(this.finalURL);
 
         try {
             String data = IOUtils.toString(new URL(this.finalURL),
                     Charset.forName("UTF-8"));
-            System.out.println(data);
+            JSONObject jsonObject = new JSONObject(data);
+
+            String temp = jsonObject.getJSONObject("current").get("temp_c").toString();
+            String cloud = jsonObject.getJSONObject("current").get("cloud").toString();
+            String pressure = jsonObject.getJSONObject("current").get("pressure_mb").toString();
+            String humidity = jsonObject.getJSONObject("current").get("humidity").toString();
+            String wind_kph = jsonObject.getJSONObject("current").get("wind_kph").toString();
+            String wind_dir = jsonObject.getJSONObject("current").get("wind_dir").toString();
+
+            System.out.println(temp);
+            System.out.println(cloud);
+            System.out.println(pressure);
+            System.out.println(humidity);
+            System.out.println(wind_kph);
+            System.out.println(wind_dir);
+
+            Current current = new Current();
+
+            current.setTemp_c(Integer.parseInt(temp));
+            current.setCloud(Double.parseDouble(cloud));
+            current.setPressure_mb(Double.parseDouble(pressure));
+            current.setHumidity(Double.parseDouble(humidity));
+            current.setWind(Double.parseDouble(wind_kph));
+
+
+            return current;
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
