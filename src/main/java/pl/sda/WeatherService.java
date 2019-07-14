@@ -24,9 +24,10 @@ public class WeatherService {
         this.finalURL = this.url + "?key=" + apiKey + "&q=";
     }
 
-    public WeatherService getJSONData(String city) {
-        if (data.isEmpty()) {
+    public String getJSONData(String city) {
+        if (this.data.isEmpty()) {
             this.finalURL = this.finalURL + city;
+            System.out.println("WYWOŁANIE");
             try {
                 this.data = IOUtils.toString(new URL(this.finalURL),
                         Charset.forName("UTF-8"));
@@ -34,7 +35,7 @@ public class WeatherService {
                 e.printStackTrace();
             }
         }
-        return this;
+        return data;
     }
 
     public Current getCityWeather() {
@@ -70,7 +71,7 @@ public class WeatherService {
         return current;
     }
 
-    public Location getLocation(){
+    public Location getLocation() {
         String stringKey = "location";
         JSONObject jsonObject = new JSONObject(data).getJSONObject(stringKey);
 
@@ -88,12 +89,13 @@ public class WeatherService {
         return location;
     }
 
-    public Weather getWeather(){
+    public Weather getWeather() {
+
         JSONObject jsonObject = new JSONObject(this.data);
         String temp = jsonObject.getJSONObject("current").get("temp_c").toString();
         String lat = jsonObject.getJSONObject("location").get("lat").toString();
-        String lon= jsonObject.getJSONObject("location").get("lon").toString();
-        String country= jsonObject.getJSONObject("location").get("country").toString();
+        String lon = jsonObject.getJSONObject("location").get("lon").toString();
+        String country = jsonObject.getJSONObject("location").get("country").toString();
         String name = jsonObject.getJSONObject("location").get("name").toString();
         String wind_dir = jsonObject.getJSONObject("current").get("wind_dir").toString();
         String precip_in = jsonObject.getJSONObject("current").get("precip_in").toString();

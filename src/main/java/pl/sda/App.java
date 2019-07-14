@@ -20,19 +20,16 @@ public class App {
                 "http://api.apixu.com/v1/current.json",
                 "49b8f045a61844fd91a82234191307"
         );
-        Current current = weatherService.getJSONData("Torun").getCityWeather();
-        Location location = weatherService.getJSONData("Torun").getLocation();
+        //  Current current = weatherService.getJSONData("Torun").getCityWeather();
+        //Location location = weatherService.getJSONData("Torun").getLocation();
 
-        System.out.println("LAT: " + location.getLat());
-        System.out.println("LON: " + location.getLon());
+        // System.out.println("LAT: " + location.getLat());
+        // System.out.println("LON: " + location.getLon());
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            Weather weather = objectMapper.readValue(new URL(url), Weather.class);
-            objectMapper.writeValue(new File("data.json"), weather);
-            System.out.println(weather.getLocation().getCountry);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        WeatherForecast weatherForecast = new OrgImplementation(weatherService, "Torun");
+        WeatherForecast weatherForecast1 = new FasterImplementation(weatherService, "Torun");
+
+        System.out.println(weatherForecast.getWeather());
     }
 }
+
