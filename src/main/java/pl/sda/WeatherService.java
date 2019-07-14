@@ -10,6 +10,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class WeatherService {
+    private String data;
     private String url;
     private String apiKey;
     private String finalURL;
@@ -20,15 +21,20 @@ public class WeatherService {
         this.finalURL = this.url + "?key=" + apiKey + "&q=";
     }
 
-    public Current getCityWeather(String city) {
+    public WeatherService getJSONData(String city){
+       this.finalURL = this.finalURL + city;
+       try {
+           this.data = IOUtils.toString(new URL(this.finalURL),
+                   Charset.forName("UTF-8"));
+       }catch (IOException e){
+           e.printStackTrace();
+       }
+       return this;
+    }
 
-        this.finalURL = this.finalURL + city;
-        System.out.println(this.finalURL);
+    public Current getCityWeather() {
 
-        try {
-            String data = IOUtils.toString(new URL(this.finalURL),
-                    Charset.forName("UTF-8"));
-            JSONObject jsonObject = new JSONObject(data);
+        JSONObject jsonObject = new JSONObject(this.data);
 
             String temp = jsonObject.getJSONObject("current").get("temp_c").toString();
             String cloud = jsonObject.getJSONObject("current").get("cloud").toString();
@@ -58,10 +64,5 @@ public class WeatherService {
 
             return current;
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
