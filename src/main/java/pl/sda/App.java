@@ -29,7 +29,9 @@ public class App {
         WeatherForecast weatherForecast = new OrgImplementation(weatherService, "Torun");
         WeatherForecast weatherForecast1 = new FasterImplementation(weatherService, "Torun");
 
-        System.out.println(weatherForecast.getWeather());
+        System.out.println("OrgImplementation:  "+ weatherForecast.getWeather());
+        System.out.println();
+        System.out.println("FasterImplementation:   "+ weatherForecast1.getWeather());
     }
 }
 
