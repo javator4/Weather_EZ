@@ -1,6 +1,9 @@
 package pl.sda;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
+
+
 import pl.sda.model.Current;
 import pl.sda.model.Location;
 import pl.sda.model.Weather;
@@ -11,7 +14,16 @@ import java.net.URL;
 
 
 public class App {
+
+    private static Logger logger = Logger.getLogger(App.class);
+
     public static void main(String[] args) {
+
+        logger.info("URUCHOMIENIE APLIKACJI");
+        logger.warn("WARNING");
+        logger.debug("DEBUG");
+        logger.error("ERROR");
+
         String url =
                 "http://api.apixu.com/v1/current.json" +
                         "?key=49b8f045a61844fd91a82234191307&q=Paris";
@@ -20,6 +32,7 @@ public class App {
                 "http://api.apixu.com/v1/current.json",
                 "49b8f045a61844fd91a82234191307"
         );
+
         //  Current current = weatherService.getJSONData("Torun").getCityWeather();
         //Location location = weatherService.getJSONData("Torun").getLocation();
 
@@ -29,9 +42,9 @@ public class App {
         WeatherForecast weatherForecast = new OrgImplementation(weatherService, "Torun");
         WeatherForecast weatherForecast1 = new FasterImplementation(weatherService, "Torun");
 
-        System.out.println("OrgImplementation:  "+ weatherForecast.getWeather());
+        System.out.println("OrgImplementation:  " + weatherForecast.getWeather());
         System.out.println();
-        System.out.println("FasterImplementation:   "+ weatherForecast1.getWeather());
+        System.out.println("FasterImplementation:   " + weatherForecast1.getWeather());
     }
 }
 
