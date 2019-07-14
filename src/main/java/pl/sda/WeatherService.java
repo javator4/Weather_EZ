@@ -48,7 +48,7 @@ public class WeatherService {
 
             Current current = new Current();
 
-            current.setTemp_c(Integer.parseInt(temp));
+            current.setTemp_c(Double.parseDouble(temp));
             current.setCloud(Double.parseDouble(cloud));
             current.setPressure_mb(Double.parseDouble(pressure));
             current.setHumidity(Double.parseDouble(humidity));
