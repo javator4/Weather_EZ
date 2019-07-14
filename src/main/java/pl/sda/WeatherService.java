@@ -46,14 +46,15 @@ public class WeatherService {
             System.out.println(wind_dir);
             System.out.println(precip_in);
 
-            Current current = new Current();
-
-            current.setTemp_c(Double.parseDouble(temp));
-            current.setCloud(Double.parseDouble(cloud));
-            current.setPressure_mb(Double.parseDouble(pressure));
-            current.setHumidity(Double.parseDouble(humidity));
-            current.setWind(Double.parseDouble(wind_kph));
-            current.setPrecip_in(Double.parseDouble(precip_in));
+            Current current = Current.builder()
+                    .temp_c(Double.parseDouble(temp))
+                    .cloud(Double.parseDouble(cloud))
+                    .pressure_mb(Double.parseDouble(pressure))
+                    .humidity(Double.parseDouble(humidity))
+                    .wind_kph(Double.parseDouble(wind_kph))
+                    .wind_dir(wind_dir)
+                    .precip_in(Double.parseDouble(precip_in))
+                    .build();
 
             return current;
 
