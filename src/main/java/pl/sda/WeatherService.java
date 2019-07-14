@@ -1,8 +1,10 @@
 package pl.sda;
 
+import lombok.Builder;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import pl.sda.model.Current;
+import pl.sda.model.Location;
 
 import java.io.IOException;
 import java.lang.String;
@@ -10,7 +12,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 public class WeatherService {
-    private String data;
+    private String data = "";
     private String url;
     private String apiKey;
     private String finalURL;
@@ -21,48 +23,68 @@ public class WeatherService {
         this.finalURL = this.url + "?key=" + apiKey + "&q=";
     }
 
-    public WeatherService getJSONData(String city){
-       this.finalURL = this.finalURL + city;
-       try {
-           this.data = IOUtils.toString(new URL(this.finalURL),
-                   Charset.forName("UTF-8"));
-       }catch (IOException e){
-           e.printStackTrace();
-       }
-       return this;
+    public WeatherService getJSONData(String city) {
+        if (data.isEmpty()) {
+            this.finalURL = this.finalURL + city;
+            try {
+                this.data = IOUtils.toString(new URL(this.finalURL),
+                        Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return this;
     }
 
     public Current getCityWeather() {
 
         JSONObject jsonObject = new JSONObject(this.data);
 
-            String temp = jsonObject.getJSONObject("current").get("temp_c").toString();
-            String cloud = jsonObject.getJSONObject("current").get("cloud").toString();
-            String pressure = jsonObject.getJSONObject("current").get("pressure_mb").toString();
-            String humidity = jsonObject.getJSONObject("current").get("humidity").toString();
-            String wind_kph = jsonObject.getJSONObject("current").get("wind_kph").toString();
-            String wind_dir = jsonObject.getJSONObject("current").get("wind_dir").toString();
-            String precip_in = jsonObject.getJSONObject("current").get("precip_in").toString();
+        String temp = jsonObject.getJSONObject("current").get("temp_c").toString();
+        String cloud = jsonObject.getJSONObject("current").get("cloud").toString();
+        String pressure = jsonObject.getJSONObject("current").get("pressure_mb").toString();
+        String humidity = jsonObject.getJSONObject("current").get("humidity").toString();
+        String wind_kph = jsonObject.getJSONObject("current").get("wind_kph").toString();
+        String wind_dir = jsonObject.getJSONObject("current").get("wind_dir").toString();
+        String precip_in = jsonObject.getJSONObject("current").get("precip_in").toString();
 
-            System.out.println(temp);
-            System.out.println(cloud);
-            System.out.println(pressure);
-            System.out.println(humidity);
-            System.out.println(wind_kph);
-            System.out.println(wind_dir);
-            System.out.println(precip_in);
+        System.out.println(temp);
+        System.out.println(cloud);
+        System.out.println(pressure);
+        System.out.println(humidity);
+        System.out.println(wind_kph);
+        System.out.println(wind_dir);
+        System.out.println(precip_in);
 
-            Current current = Current.builder()
-                    .temp_c(Double.parseDouble(temp))
-                    .cloud(Double.parseDouble(cloud))
-                    .pressure_mb(Double.parseDouble(pressure))
-                    .humidity(Double.parseDouble(humidity))
-                    .wind_kph(Double.parseDouble(wind_kph))
-                    .wind_dir(wind_dir)
-                    .precip_in(Double.parseDouble(precip_in))
-                    .build();
+        Current current = Current.builder()
+                .temp_c(Double.parseDouble(temp))
+                .cloud(Double.parseDouble(cloud))
+                .pressure_mb(Double.parseDouble(pressure))
+                .humidity(Double.parseDouble(humidity))
+                .wind_kph(Double.parseDouble(wind_kph))
+                .wind_dir(wind_dir)
+                .precip_in(Double.parseDouble(precip_in))
+                .build();
 
-            return current;
+        return current;
+    }
 
+    public Location getLocation(){
+        String stringKey = "location";
+        JSONObject jsonObject = new JSONObject(data).getJSONObject(stringKey);
+
+        String lat = jsonObject.get("lat").toString();
+        String lon = jsonObject.get("lon").toString();
+        String country = jsonObject.get("country").toString();
+        String name = jsonObject.get("name").toString();
+
+        Location location = Location.builder()
+                .lat(Double.parseDouble(lat))
+                .lon(Double.parseDouble(lon))
+                .country(country)
+                .name(name).build();
+
+        return location;
     }
 }
+

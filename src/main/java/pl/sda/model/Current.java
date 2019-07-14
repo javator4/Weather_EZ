@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Current {
 
     private int last_updated_epoch;
@@ -18,6 +19,7 @@ public class Current {
     private double is_day;
     private Condition condition;
     private double wind;
+    private double wind_mph;
     private double wind_kph;
     private double wind_degree;
     private String wind_dir;
@@ -31,6 +33,7 @@ public class Current {
     private double feelslike_f;
     private double vis_km;
     private double vis_miles;
+    private int uv;
     private double gust_mph;
     private double gust_kph;
 }
