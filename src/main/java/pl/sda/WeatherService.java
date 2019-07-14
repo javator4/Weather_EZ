@@ -3,17 +3,16 @@ package pl.sda;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import pl.sda.model.Current;
+
 import java.io.IOException;
 import java.lang.String;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-
 public class WeatherService {
     private String url;
     private String apiKey;
     private String finalURL;
-
 
     public WeatherService(String url, String apiKey) {
         this.url = url;
@@ -37,6 +36,7 @@ public class WeatherService {
             String humidity = jsonObject.getJSONObject("current").get("humidity").toString();
             String wind_kph = jsonObject.getJSONObject("current").get("wind_kph").toString();
             String wind_dir = jsonObject.getJSONObject("current").get("wind_dir").toString();
+            String precip_in = jsonObject.getJSONObject("current").get("precip_in").toString();
 
             System.out.println(temp);
             System.out.println(cloud);
@@ -44,6 +44,7 @@ public class WeatherService {
             System.out.println(humidity);
             System.out.println(wind_kph);
             System.out.println(wind_dir);
+            System.out.println(precip_in);
 
             Current current = new Current();
 
@@ -52,10 +53,9 @@ public class WeatherService {
             current.setPressure_mb(Double.parseDouble(pressure));
             current.setHumidity(Double.parseDouble(humidity));
             current.setWind(Double.parseDouble(wind_kph));
-
+            current.setPrecip_in(Double.parseDouble(precip_in));
 
             return current;
-
 
         } catch (IOException e) {
             e.printStackTrace();
