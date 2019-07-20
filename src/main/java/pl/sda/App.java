@@ -50,13 +50,20 @@ public class App {
         JsonDataFaster jsonDataFaster = new JsonDataFaster();
         jsonDataFaster.setApiKey("49b8f045a61844fd91a82234191307");
         jsonDataFaster.setUrl("http://api.apixu.com/v1/current.json");
+        jsonDataFaster.setCity("Warszawa");
         jsonDataFaster.build();
-
 
         System.out.println(jsonDataFaster.getWeather());
 
         System.out.println("test");
 
+        JsonDataOrg jsonDataOrg = new JsonDataOrg();
+        jsonDataOrg.setApiKey("49b8f045a61844fd91a82234191307");
+        jsonDataOrg.setUrl("http://api.apixu.com/v1/current.json");
+        jsonDataOrg.setCity("Rzym");
+        jsonDataOrg.build();
+
+        System.out.println(jsonDataOrg.getWeather());
 
     }
 }
