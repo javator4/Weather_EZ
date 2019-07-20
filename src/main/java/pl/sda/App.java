@@ -39,12 +39,25 @@ public class App {
         // System.out.println("LAT: " + location.getLat());
         // System.out.println("LON: " + location.getLon());
 
-        WeatherForecast weatherForecast = new OrgImplementation(weatherService, "Torun");
+        WeatherForecast weatherForecast
+                = new OrgImplementation(weatherService, "Torun");  //wstrzykiwanie zależności (od obiektu weatherService)
         WeatherForecast weatherForecast1 = new FasterImplementation(weatherService, "Torun");
 
-        System.out.println("OrgImplementation:  " + weatherForecast.getWeather());
+        System.out.println(weatherForecast.getWeather());
         System.out.println();
-        System.out.println("FasterImplementation:   " + weatherForecast1.getWeather());
+        System.out.println(weatherForecast1.getWeather());
+
+        JsonDataFaster jsonDataFaster = new JsonDataFaster();
+        jsonDataFaster.setApiKey("49b8f045a61844fd91a82234191307");
+        jsonDataFaster.setUrl("http://api.apixu.com/v1/current.json");
+        jsonDataFaster.build();
+
+
+        System.out.println(jsonDataFaster.getWeather());
+
+        System.out.println("test");
+
+
     }
 }
 
