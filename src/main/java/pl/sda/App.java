@@ -64,7 +64,6 @@ public class App {
         jsonDataOrg.build();
 
         System.out.println(jsonDataOrg.getWeather());
-
     }
 }
 
